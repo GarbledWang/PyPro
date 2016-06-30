@@ -1,0 +1,13 @@
+div.title{
+    padding: 10px;
+}
+#name{
+    display: block;
+    font-size: 30px;
+    font-family: Consolas;
+    font-weight: bold;
+}
+#desc{
+    font-size: 15px;
+    font-family: Consolas;
+}
