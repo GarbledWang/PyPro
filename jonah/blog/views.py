@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from blog.util import Constant
 from blog.models import Article
+from django.http import HttpResponseRedirect
 import time
 # Create your views here.
 def index(request):
@@ -9,9 +10,12 @@ def index(request):
     context['desc'] = Constant.BLOG_DESC
     if Constant.SESSION_KEY in request.COOKIES:
         context['username'] = request.COOKIES[Constant.SESSION_KEY]
+    if  'username' in request.session:
+        context['username'] = request.session['username']
     if Constant.SESSION_KEY in request.COOKIES or 'username' in request.session:
         all_article = Article.objects.all().filter(author=Constant.USERNAME)
         context['article'] = all_article
+        print(all_article)
     return render(request,'index.html',context)
 #login
 def login(request):
@@ -66,8 +70,4 @@ def edit(request):
         #Post Commit
         article = Article(title=request.POST['title'],author=Constant.USERNAME,date=time.strftime('%Y-%m-%d',time.localtime(time.time())),content=request.POST['content'])
         article.save()
-        context = {}
-        context['name'] = Constant.BLOG_NAME
-        context['desc'] = Constant.BLOG_DESC
-        context['username'] = request.session['username']
-        return render(request,'index.html')
+        return HttpResponseRedirect('/')
