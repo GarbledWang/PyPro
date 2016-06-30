@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from blog.util import Constant
-from django.http import HttpResponseRedirect
-import logging
+from blog.models import Article
+import time
 # Create your views here.
 def index(request):
     context = {}
@@ -47,3 +47,23 @@ def login(request):
         return response
         #return render(request,'index.html',context)
     return render(request,'login.html')
+
+def edit(request):
+    if request.method == 'GET':
+        if 'username' in request.session:
+            context = {}
+            context['name'] = Constant.BLOG_NAME
+            return render(request,'edit.html',context)
+        else:
+            context = {}
+            context['name'] = Constant.BLOG_NAME
+            context['desc'] = Constant.BLOG_DESC
+            return render(request,'index.html',context)
+    else:
+        #Post Commit
+        article = Article(title=request.POST['title'],author=Constant.USERNAME,date=time.strftime('%Y-%m-%d',time.localtime(time.time())),content=request.POST['content'])
+        article.save()
+        context = {}
+        context['name'] = Constant.BLOG_NAME
+        context['desc'] = Constant.BLOG_DESC
+        return render(request,'index.html')

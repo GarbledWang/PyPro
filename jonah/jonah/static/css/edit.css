@@ -1,0 +1,13 @@
+.container {
+    position: relative;
+    margin: 0 auto;
+    margin-top: 50px;
+    width: 988px;
+    height: 500px;
+    text-align: left;
+    //border: 1px solid silver;
+}
+#text_title{
+    font-family: 黑体;
+    font-size: 20px;
+}
