@@ -17,7 +17,7 @@ def login(request):
             un = request.POST['username']
             pw = request.POST['password']
             '''校验账号密码'''
-            if un == "jonah" and pw == '5442377':
+            if un == Constant.USERNAME and pw == Constant.PASSWORD:
                 #save session
                 request.session['username'] = un
                 request.session['password'] = pw

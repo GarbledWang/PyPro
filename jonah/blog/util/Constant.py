@@ -1,7 +1,11 @@
 #常量
-#名字
+#title
 BLOG_NAME = "Jonah"
-#简介
+#desc
 BLOG_DESC = "Welcome to Jonah's blog"
 #Session key
 SESSION_KEY = 'user_name'
+#username
+USERNAME = "jonah"
+#password
+PASSWORD = "5442377"
