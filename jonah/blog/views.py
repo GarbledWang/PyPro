@@ -9,6 +9,9 @@ def index(request):
     context['desc'] = Constant.BLOG_DESC
     if Constant.SESSION_KEY in request.COOKIES:
         context['username'] = request.COOKIES[Constant.SESSION_KEY]
+    if Constant.SESSION_KEY in request.COOKIES or 'username' in request.session:
+        all_article = Article.objects.all().filter(author=Constant.USERNAME)
+        context['article'] = all_article
     return render(request,'index.html',context)
 #login
 def login(request):
@@ -66,4 +69,5 @@ def edit(request):
         context = {}
         context['name'] = Constant.BLOG_NAME
         context['desc'] = Constant.BLOG_DESC
+        context['username'] = request.session['username']
         return render(request,'index.html')

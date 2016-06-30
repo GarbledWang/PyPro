@@ -25,6 +25,12 @@
         </div>
     {% endif %}
 </div>
+
+{% if article %}
+    {% for art in article %}
+        <h1>{{ art.content }}</h1>
+    {% endfor %}
+{% endif %}
 </body>
 
 </html>
