@@ -7,8 +7,16 @@
 
 <body>
 <div class="title">
-    <span id="name">{{ name }}</span>
-    <span id="desc">{{ desc }}</span>
+    <div class="title_left">
+        <img id="icon" src="/static/images/icon.jpg">
+    </div>
+    <div class="title_right">
+        <span id="name">{{ name }}</span>
+        <span id="desc">{{ desc }}</span>
+    </div>
+    <div class="title_end">
+        <a href="/login" style="text-decoration:none"><span id="login">Login</span></a>
+    </div>
 </div>
 </body>
 

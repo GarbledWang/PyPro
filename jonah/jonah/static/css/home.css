@@ -1,13 +1,41 @@
 div.title{
-    padding: 10px;
+    margin: 20px;;
+    height: 100px;
+}
+div.title_left{
+    display:inline;
+    float: left;
+}
+div.title_right{
+    float: left;
+    margin-left: 20px;
+    margin-top: 30px;
+}
+div.title_end{
+    float: right;
+    margin-top: 45px;
 }
 #name{
-    display: block;
     font-size: 30px;
     font-family: Consolas;
+    display: block;
     font-weight: bold;
 }
 #desc{
     font-size: 15px;
     font-family: Consolas;
+}
+#icon{
+    height: 100px;
+    width: 100px;
+}
+#login{
+    font-size: 15px;
+    font-family: Consolas;
+    padding: 5px 10px 5px 10px;
+    font-weight: bold;
+    border-radius: 3px;
+    color: white;
+    background-color: #13CEA6;
+    border: 1px solid silver;
 }
