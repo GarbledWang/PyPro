@@ -14,9 +14,15 @@
         <span id="name">{{ name }}</span>
         <span id="desc">{{ desc }}</span>
     </div>
-    <div class="title_end">
-        <a href="/login" style="text-decoration:none"><span id="login">Login</span></a>
-    </div>
+    {% if username %}
+        <div class="title_end">
+            <a href="/login?out=true" style="text-decoration:none"><span id="login">Login Out</span></a>
+        </div>
+    {% else %}
+        <div class="title_end">
+            <a href="/login" style="text-decoration:none"><span id="login">Login</span></a>
+        </div>
+    {% endif %}
 </div>
 </body>
 
