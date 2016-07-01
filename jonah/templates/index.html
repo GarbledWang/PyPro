@@ -8,7 +8,7 @@
 <body>
 <div class="title">
     <div class="title_left">
-        <img id="icon" src="/static/images/icon.jpg">
+        <a href="#"><img id="icon" src="/static/images/icon.jpg"></a>
     </div>
     <div class="title_right">
         <span id="name">{{ name }}</span>
@@ -25,6 +25,29 @@
         </div>
     {% endif %}
 </div>
+
+{% if article %}
+    {% for art in article %}
+        <div class="div_article">
+            <span class="article">{{ art.title }}</span>
+            <span class="content">{{ art.content }}</span>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<script type="text/javascript">
+    window.onload = function () {
+        conts = document.getElementsByClassName('content')
+        for(var i= 0; i < conts.length; i++){
+            sp = conts.item(i)
+            if (sp.innerHTML.toString().length > 100){
+                sp.innerHTML = sp.innerHTML.toString().substring(0,100)+'...'
+            }
+        }
+    }
+
+</script>
+
 </body>
 
 </html>

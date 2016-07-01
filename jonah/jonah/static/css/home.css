@@ -1,35 +1,63 @@
-div.title{
+div.title {
     margin: 20px;;
     height: 100px;
 }
-div.title_left{
-    display:inline;
+
+div.title_left {
+    display: inline;
     float: left;
 }
-div.title_right{
+
+div.title_right {
     float: left;
     margin-left: 20px;
     margin-top: 30px;
 }
-div.title_end{
+
+div.title_end {
     float: right;
     margin-top: 45px;
 }
-#name{
+
+.div_article {
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.article {
+    display: block;
+    font-size: 40px;
+    border-bottom: 1px solid silver;
+    font-family: 黑体;
+}
+
+.content {
+    padding: 10px;
+    display: block;
+    font-family: 宋体;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#name {
     font-size: 30px;
     font-family: Consolas;
     display: block;
     font-weight: bold;
 }
-#desc{
+
+#desc {
     font-size: 15px;
     font-family: Consolas;
 }
-#icon{
+
+#icon {
     height: 100px;
     width: 100px;
 }
-#login{
+
+#login {
     font-size: 15px;
     font-family: Consolas;
     padding: 5px 10px 5px 10px;

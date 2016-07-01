@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from blog.util import Constant
 from blog.models import Article
+from django.http import HttpResponseRedirect
 import time
 # Create your views here.
 def index(request):
@@ -9,6 +10,12 @@ def index(request):
     context['desc'] = Constant.BLOG_DESC
     if Constant.SESSION_KEY in request.COOKIES:
         context['username'] = request.COOKIES[Constant.SESSION_KEY]
+    if  'username' in request.session:
+        context['username'] = request.session['username']
+    if Constant.SESSION_KEY in request.COOKIES or 'username' in request.session:
+        all_article = Article.objects.all().filter(author=Constant.USERNAME)
+        context['article'] = all_article
+        print(all_article)
     return render(request,'index.html',context)
 #login
 def login(request):
@@ -21,11 +28,7 @@ def login(request):
                 #save session
                 request.session['username'] = un
                 request.session['password'] = pw
-                context = {}
-                context['name'] = Constant.BLOG_NAME
-                context['desc'] = Constant.BLOG_DESC
-                context['username'] = un
-                response = render(request,'index.html',context)
+                response = HttpResponseRedirect('/')
                 if 'remember' in request.POST and request.POST['remember'] == 'remember-me':
                     response.set_cookie(Constant.SESSION_KEY, un,max_age=1000*60*60*24*30)
                 else:
@@ -63,7 +66,4 @@ def edit(request):
         #Post Commit
         article = Article(title=request.POST['title'],author=Constant.USERNAME,date=time.strftime('%Y-%m-%d',time.localtime(time.time())),content=request.POST['content'])
         article.save()
-        context = {}
-        context['name'] = Constant.BLOG_NAME
-        context['desc'] = Constant.BLOG_DESC
-        return render(request,'index.html')
+        return HttpResponseRedirect('/')
