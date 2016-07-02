@@ -10,6 +10,7 @@ def index(request):
     context['desc'] = Constant.BLOG_DESC
     if Constant.COOKIE_KEY in request.COOKIES:
         context['username'] = request.COOKIES[Constant.COOKIE_KEY]
+        request.session['username'] = request.COOKIES[Constant.COOKIE_KEY]
     if  Constant.SESSION_KEY in request.session:
         context['username'] = request.session['username']
     if Constant.COOKIE_KEY in request.COOKIES or Constant.SESSION_KEY in request.session:
@@ -18,6 +19,7 @@ def index(request):
         context['article'] = all_article
         print(all_article)
     return render(request,'index.html',context)
+
 #login
 def login(request):
     if request.method == "POST":
@@ -25,7 +27,7 @@ def login(request):
             un = request.POST['username']
             pw = request.POST['password']
             '''校验账号密码'''
-            user = User.objects.get(username=un,password=pw)
+            user = User.objects.filter(username=un,password=pw)
             if user:
                 #save session
                 request.session['username'] = un
@@ -53,6 +55,7 @@ def login(request):
         return response
         #return render(request,'index.html',context)
     return render(request,'login.html')
+
 #edit article
 def edit(request):
     if request.method == 'GET':
@@ -67,7 +70,8 @@ def edit(request):
             return render(request,'index.html',context)
     else:
         #Post Commit
-        article = Article(title=request.POST['title'],author=Constant.USERNAME,date=time.strftime('%Y-%m-%d',time.localtime(time.time())),content=request.POST['content'])
+        username = request.session['username']
+        article = Article(title=request.POST['title'],author=username,date=time.strftime('%Y-%m-%d',time.localtime(time.time())),content=request.POST['content'])
         article.save()
         return HttpResponseRedirect('/')
 

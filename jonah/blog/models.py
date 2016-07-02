@@ -8,6 +8,7 @@ class User(models.Model):
         return self.username
 
 
+# Create user article
 class Article(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=50)
