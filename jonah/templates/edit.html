@@ -2,6 +2,7 @@
 <head>
     <meta charset="utf-8"/>
     <title>{{ name }}</title>
+    <link rel="icon" href="/static/images/icon.jpg">
 
     <link rel="stylesheet" href="/static/css/edit.css">
     <!-- 新 Bootstrap 核心 CSS 文件 -->
@@ -26,8 +27,7 @@
                                                class="form-control"
                                                placeholder="Title">
         <span id="text_title">内容:</span>
-        <textarea id="content" name="content" class="form-control" rows="10" placeholder="Content">
-            {% if art %}{{ art.content}}{% endif %}
+        <textarea id="content" name="content" class="form-control" rows="10" placeholder="Content">{% if art %}{{ art.content}}{% endif %}
         </textarea>
         <input type="submit" style="margin-top: 10px" value="Submit" class="btn btn-primary btn-lg active"/>
     {% if art %}

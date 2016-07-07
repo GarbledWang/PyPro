@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from blog.util import Constant
 from blog.models import Article,User
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
 import time
 
 
@@ -86,6 +86,16 @@ def edit(request):
             article.save()
             return HttpResponseRedirect('/')
 
+
+def checkAccount(request):
+    if request.method == 'GET':
+        account = request.GET['account']
+        users = User.objects.filter(username=account)
+        if users and len(users)>0:
+            return HttpResponse('1')
+        else:
+            return HttpResponse('0')
+    return HttpResponse('2')
 
 #显示页面
 def show(request):
