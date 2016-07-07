@@ -2,6 +2,7 @@
 <head>
     <meta charset="utf-8">
     <title>{{ name }}</title>
+    <link rel="icon" href="/static/images/icon.jpg">
     <link rel="stylesheet" href="/static/css/home.css" type="text/css" charset="utf-8">
 </head>
 
@@ -21,6 +22,7 @@
         </div>
     {% else %}
         <div class="title_end">
+            <a href="/register" style="text-decoration: none"><span id="login">Register</span> </a>
             <a href="/login" style="text-decoration:none"><span id="login">Login</span></a>
         </div>
     {% endif %}
@@ -29,7 +31,8 @@
 {% if article %}
     {% for art in article %}
         <div class="div_article">
-            <span class="article"><a style="text-decoration: none" href="/show?article={{ art.id }}">{{ art.title }}</a></span>
+            <span class="article"><a style="text-decoration: none; color: black"
+                                     href="/show?article={{ art.id }}">{{ art.title }}</a></span>
             <span class="content">{{ art.content }}</span>
         </div>
     {% endfor %}
@@ -38,10 +41,10 @@
 <script type="text/javascript">
     window.onload = function () {
         conts = document.getElementsByClassName('content')
-        for(var i= 0; i < conts.length; i++){
+        for (var i = 0; i < conts.length; i++) {
             sp = conts.item(i)
-            if (sp.innerHTML.toString().length > 100){
-                sp.innerHTML = sp.innerHTML.toString().substring(0,100)+'...'
+            if (sp.innerHTML.toString().length > 100) {
+                sp.innerHTML = sp.innerHTML.toString().substring(0, 100) + '...'
             }
         }
     }

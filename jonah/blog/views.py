@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from blog.util import Constant
-from blog.models import Article
+from blog.models import Article,User
 from django.http import HttpResponseRedirect
 import time
 
@@ -25,19 +25,21 @@ def index(request):
 #login
 def login(request):
     if request.method == "POST":
-        if 'username' in request.POST and 'password' in request.POST:
+        if Constant.SESSION_KEY in request.POST and 'password' in request.POST:
             un = request.POST['username']
             pw = request.POST['password']
             '''校验账号密码'''
-            if un == Constant.USERNAME and pw == Constant.PASSWORD:
+            user = User.objects.filter(username=un,password=pw)
+            if user:
                 #save session
                 request.session['username'] = un
                 request.session['password'] = pw
                 response = HttpResponseRedirect('/')
                 if 'remember' in request.POST and request.POST['remember'] == 'remember-me':
-                    response.set_cookie(Constant.SESSION_KEY, un,max_age=1000*60*60*24*30)
+                    response.delete_cookie(Constant.COOKIE_KEY)
+                    response.set_cookie(Constant.COOKIE_KEY, un,max_age=1000*60*60*24*30)
                 else:
-                    response.delete_cookie(Constant.SESSION_KEY)
+                    response.delete_cookie(Constant.COOKIE_KEY)
                 return response
             else:
                 context = {}
@@ -51,12 +53,12 @@ def login(request):
         response = HttpResponseRedirect('/')
         if 'username' in request.session:
             del request.session['username']
-            response.delete_cookie(Constant.SESSION_KEY)
+            response.delete_cookie(Constant.COOKIE_KEY)
         return response
     return render(request,'login.html')
 
 
-#编辑文章
+#edit article
 def edit(request):
     if request.method == 'GET':
         if 'username' in request.session:
@@ -94,3 +96,23 @@ def _get_name(request):
     if 'username' in request.session:
         un = request.session['username']
     return un
+
+
+#register
+def register(request):
+    if request.method == 'POST':
+        if Constant.SESSION_KEY in request.POST and 'password' in request.POST:
+            un = request.POST['username']
+            pw = request.POST['password']
+            user = User.objects.filter(username=un)
+            if user:
+                context = {}
+                context['message'] = '用户名已存在'
+                return render(request,'register.html',context)
+            request.session['username'] = un
+            #save user
+            user = User(username=un,password=pw)
+            user.save()
+            return HttpResponseRedirect('/')
+    else:
+        return render(request,'register.html')
