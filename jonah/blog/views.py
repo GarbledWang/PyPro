@@ -3,6 +3,8 @@ from blog.util import Constant
 from blog.models import Article
 from django.http import HttpResponseRedirect
 import time
+
+
 # Create your views here.
 def index(request):
     context = {}
@@ -10,13 +12,16 @@ def index(request):
     context['desc'] = Constant.BLOG_DESC
     if Constant.SESSION_KEY in request.COOKIES:
         context['username'] = request.COOKIES[Constant.SESSION_KEY]
-    if  'username' in request.session:
+    if 'username' in request.session:
         context['username'] = request.session['username']
     if Constant.SESSION_KEY in request.COOKIES or 'username' in request.session:
-        all_article = Article.objects.all().filter(author=Constant.USERNAME)
+        un = context['username']
+        all_article = Article.objects.all().filter(author=un)
         context['article'] = all_article
         print(all_article)
-    return render(request,'index.html',context)
+    return render(request  ,'index.html',context)
+
+
 #login
 def login(request):
     if request.method == "POST":
@@ -43,14 +48,15 @@ def login(request):
         context = {}
         context['name'] = Constant.BLOG_NAME
         context['desc'] = Constant.BLOG_DESC
-        response = render(request,'index.html',context)
+        response = HttpResponseRedirect('/')
         if 'username' in request.session:
             del request.session['username']
             response.delete_cookie(Constant.SESSION_KEY)
         return response
-        #return render(request,'index.html',context)
     return render(request,'login.html')
 
+
+#编辑文章
 def edit(request):
     if request.method == 'GET':
         if 'username' in request.session:
@@ -62,8 +68,29 @@ def edit(request):
             context['name'] = Constant.BLOG_NAME
             context['desc'] = Constant.BLOG_DESC
             return render(request,'index.html',context)
-    else:
-        #Post Commit
-        article = Article(title=request.POST['title'],author=Constant.USERNAME,date=time.strftime('%Y-%m-%d',time.localtime(time.time())),content=request.POST['content'])
+    else:#POST commit
+        article = Article(title=request.POST['title'] ,author=Constant.USERNAME,date=time.strftime('%Y-%m-%d',time.localtime(time.time())),content=request.POST['content'])
         article.save()
         return HttpResponseRedirect('/')
+
+
+#显示页面
+def show(request):
+    if request.method == "GET" and 'article' in request.GET:
+        un = _get_name(request)
+        if un:
+            _id = request.GET['article']
+            article = Article.objects.filter(id=_id)[0]
+            context = {}
+            context['name'] = un
+            context['art'] = article
+            return render(request,'show.html',context)
+
+
+def _get_name(request):
+    un = None
+    if Constant.SESSION_KEY in request.COOKIES:
+        un = request.COOKIES[Constant.SESSION_KEY]
+    if 'username' in request.session:
+        un = request.session['username']
+    return un

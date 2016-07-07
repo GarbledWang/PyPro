@@ -8,7 +8,7 @@
 <body>
 <div class="title">
     <div class="title_left">
-        <a href="#"><img id="icon" src="/static/images/icon.jpg"></a>
+        <a href="#"><img class="img-thumbnail" id="icon" src="/static/images/icon.jpg"></a>
     </div>
     <div class="title_right">
         <span id="name">{{ name }}</span>
@@ -29,7 +29,7 @@
 {% if article %}
     {% for art in article %}
         <div class="div_article">
-            <span class="article">{{ art.title }}</span>
+            <span class="article"><a style="text-decoration: none" href="/show?article={{ art.id }}">{{ art.title }}</a></span>
             <span class="content">{{ art.content }}</span>
         </div>
     {% endfor %}
