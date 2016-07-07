@@ -21,11 +21,18 @@
 <div class="container">
     <h1>{{ name }}</h1>
     <form action="/edit" method="post" onsubmit="return checkContent()">{% csrf_token %}
-        <span id="text_title">标题:</span><input id="title" style="margin-bottom: 10px" name="title" type="text" class="form-control"
+        <span id="text_title">标题:</span><input id="title" style="margin-bottom: 10px"
+                                               value="{% if art %}{{ art.title }}{% endif %}" name="title" type="text"
+                                               class="form-control"
                                                placeholder="Title">
         <span id="text_title">内容:</span>
-        <textarea id="content" name="content" class="form-control" rows="10" placeholder="Content"></textarea>
+        <textarea id="content" name="content" class="form-control" rows="10" placeholder="Content">
+            {% if art %}{{ art.content}}{% endif %}
+        </textarea>
         <input type="submit" style="margin-top: 10px" value="Submit" class="btn btn-primary btn-lg active"/>
+    {% if art %}
+        <input type="hidden" name="id" value="{{ art.id }}">
+    {% endif %}
     </form>
 </div>
 
@@ -33,10 +40,10 @@
     function checkContent() {
         var title = document.getElementById('title').value;
         var content = document.getElementById('content').value;
-        if(title.trim() == "" || content.trim()== ""){
+        if (title.trim() == "" || content.trim() == "") {
             alert("title or content is not empty")
             return false
-        }else {
+        } else {
             return true
         }
     }

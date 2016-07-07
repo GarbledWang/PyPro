@@ -61,19 +61,30 @@ def login(request):
 #edit article
 def edit(request):
     if request.method == 'GET':
-        if 'username' in request.session:
+        if 'arid' in request.GET:
+            context = {}
+            arid = request.GET['arid']
+            article = Article.objects.filter(id=arid)[0]
+            context['art'] = article
+            return render(request,'edit.html',context)
+        elif 'username' in request.session:
             context = {}
             context['name'] = Constant.BLOG_NAME
             return render(request,'edit.html',context)
         else:
-            context = {}
-            context['name'] = Constant.BLOG_NAME
-            context['desc'] = Constant.BLOG_DESC
-            return render(request,'index.html',context)
+            return HttpResponseRedirect('/')
     else:#POST commit
-        article = Article(title=request.POST['title'] ,author=Constant.USERNAME,date=time.strftime('%Y-%m-%d',time.localtime(time.time())),content=request.POST['content'])
-        article.save()
-        return HttpResponseRedirect('/')
+        if 'id' in request.POST:
+            article = Article.objects.get(id=request.POST['id'])
+            article.title = request.POST['title']
+            article.content = request.POST['content']
+            article.save()
+            return HttpResponseRedirect('/')
+        else:
+            un = _get_name(request)
+            article = Article(title=request.POST['title'] ,author=un,date=time.strftime('%Y-%m-%d',time.localtime(time.time())),content=request.POST['content'])
+            article.save()
+            return HttpResponseRedirect('/')
 
 
 #显示页面
